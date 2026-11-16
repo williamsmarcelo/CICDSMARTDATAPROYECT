@@ -1,0 +1,4014 @@
+{
+  "datasets": [
+    {
+      "name": "mv_ingresos",
+      "displayName": "Ingresos Públicos (Golden)",
+      "config": {
+        "source": "SELECT DISTINCT * FROM catalog_au.golden.comparativo_ingresos_final",
+        "measures": [
+          {
+            "name": "PIA",
+            "expr": "SUM(MONTO_PIA)",
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "PIM",
+            "expr": "SUM(MONTO_PIM)",
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "Recaudado",
+            "expr": "SUM(MONTO_RECAUDADO)",
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "PIA Real",
+            "expr": "SUM(MONTO_PIA) FILTER (WHERE LEYENDA = 'MONTO_REAL')",
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "PIM Real",
+            "expr": "SUM(MONTO_PIM) FILTER (WHERE LEYENDA = 'MONTO_REAL')",
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "Recaudado Real",
+            "expr": "SUM(MONTO_RECAUDADO) FILTER (WHERE LEYENDA = 'MONTO_REAL')",
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "Recaudado Proyectado",
+            "expr": "SUM(MONTO_RECAUDADO) FILTER (WHERE LEYENDA = 'MONTO_PROY')",
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "PIM Proyectado",
+            "expr": "SUM(MONTO_PIM) FILTER (WHERE LEYENDA = 'MONTO_PROY')",
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "Diferencia PIM vs PIA Real",
+            "expr": "MEASURE(`PIM Real`) - MEASURE(`PIA Real`)",
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "Brecha Presupuestaria Real",
+            "expr": "MEASURE(`PIM Real`) - MEASURE(`Recaudado Real`)",
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "Avance Recaudacion Real",
+            "expr": "MEASURE(`Recaudado Real`) / NULLIF(MEASURE(`PIM Real`), 0)",
+            "format": {
+              "type": "percentage",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 2.0
+              }
+            }
+          },
+          {
+            "name": "Avance Recaudacion",
+            "expr": "MEASURE(Recaudado) / NULLIF(MEASURE(PIM), 0)",
+            "format": {
+              "type": "percentage",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 2.0
+              }
+            }
+          },
+          {
+            "name": "Brecha Presupuestaria",
+            "expr": "MEASURE(PIM) - MEASURE(Recaudado)",
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "Recaudado Real Periodo",
+            "expr": "SUM(MONTO_RECAUDADO) FILTER (WHERE LEYENDA = 'MONTO_REAL')",
+            "window": [
+              {
+                "order": "PERIODO",
+                "range": "current"
+              }
+            ],
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "Recaudado Real Periodo Anterior",
+            "expr": "SUM(MONTO_RECAUDADO) FILTER (WHERE LEYENDA = 'MONTO_REAL')",
+            "window": [
+              {
+                "order": "PERIODO",
+                "range": "current",
+                "offset": "-1"
+              }
+            ],
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "Variacion Interanual Real",
+            "expr": "MEASURE(`Recaudado Real Periodo`) / NULLIF(MEASURE(`Recaudado Real Periodo Anterior`), 0) - 1",
+            "format": {
+              "type": "percentage",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 2.0
+              }
+            }
+          },
+          {
+            "name": "Recaudado Periodo",
+            "expr": "SUM(MONTO_RECAUDADO)",
+            "window": [
+              {
+                "order": "PERIODO",
+                "range": "current"
+              }
+            ],
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "Recaudado Periodo Anterior",
+            "expr": "SUM(MONTO_RECAUDADO)",
+            "window": [
+              {
+                "order": "PERIODO",
+                "range": "current",
+                "offset": "-1"
+              }
+            ],
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "Variacion Interanual",
+            "expr": "MEASURE(`Recaudado Periodo`) / NULLIF(MEASURE(`Recaudado Periodo Anterior`), 0) - 1",
+            "format": {
+              "type": "percentage",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 2.0
+              }
+            }
+          },
+          {
+            "name": "Recaudado Base 2012",
+            "expr": "SUM(MONTO_RECAUDADO) FILTER (WHERE CAST(source.PERIODO AS INT) = 2012)",
+            "window": [
+              {
+                "order": "PERIODO",
+                "range": "all"
+              }
+            ],
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "Crecimiento Acumulado vs 2012",
+            "expr": "MEASURE(`Recaudado Periodo`) / NULLIF(MEASURE(`Recaudado Base 2012`), 0) - 1",
+            "format": {
+              "type": "percentage",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 2.0
+              }
+            }
+          },
+          {
+            "name": "Recaudado Real Total Departamentos",
+            "expr": "SUM(MONTO_RECAUDADO) FILTER (WHERE LEYENDA = 'MONTO_REAL')",
+            "window": [
+              {
+                "order": "DEPARTAMENTO",
+                "range": "all"
+              }
+            ]
+          },
+          {
+            "name": "Participacion Departamento",
+            "expr": "MEASURE(`Recaudado Real`) / NULLIF(MEASURE(`Recaudado Real Total Departamentos`), 0)",
+            "format": {
+              "type": "percentage",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 2.0
+              }
+            }
+          },
+          {
+            "name": "Recaudado Real Canon",
+            "expr": "SUM(MONTO_RECAUDADO) FILTER (WHERE LEYENDA = 'MONTO_REAL' AND TIP_RECURSO = 'CANON')",
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "Recaudado Real Normal",
+            "expr": "SUM(MONTO_RECAUDADO) FILTER (WHERE LEYENDA = 'MONTO_REAL' AND TIP_RECURSO = 'NORMAL')",
+            "format": {
+              "type": "currency",
+              "currencyCode": "PEN",
+              "abbreviation": "compact"
+            }
+          },
+          {
+            "name": "Dependencia Canon",
+            "expr": "MEASURE(`Recaudado Real Canon`) / NULLIF(MEASURE(`Recaudado Real`), 0)",
+            "format": {
+              "type": "percentage",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 2.0
+              }
+            }
+          },
+          {
+            "name": "Dependencia Normal",
+            "expr": "MEASURE(`Recaudado Real Normal`) / NULLIF(MEASURE(`Recaudado Real`), 0)",
+            "format": {
+              "type": "percentage",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 2.0
+              }
+            }
+          }
+        ],
+        "version": "1.1",
+        "comment": "Ingresos públicos desde catalog_au.golden.comparativo_ingresos_final (filas duplicadas exactas eliminadas)",
+        "dimensions": [
+          {
+            "name": "PERIODO",
+            "expr": "CAST(PERIODO AS INT)",
+            "format": {
+              "type": "number",
+              "decimalPlaces": {
+                "type": "exact",
+                "places": 0.0
+              },
+              "hideGroupSeparator": true
+            }
+          },
+          {
+            "expr": "LEYENDA"
+          },
+          {
+            "name": "TIPO_MONTO",
+            "expr": "CASE WHEN LEYENDA = 'MONTO_REAL' THEN 'Real' WHEN LEYENDA = 'MONTO_PROY' THEN 'Proyectado' ELSE LEYENDA END"
+          },
+          {
+            "expr": "UBIGEO"
+          },
+          {
+            "name": "DEPARTAMENTO",
+            "expr": "COALESCE(NULLIF(TRIM(NOMBDEP), ''), 'SIN DATO')"
+          },
+          {
+            "name": "PROVINCIA",
+            "expr": "COALESCE(NULLIF(TRIM(NOMBPROV), ''), 'SIN DATO')"
+          },
+          {
+            "name": "DISTRITO",
+            "expr": "COALESCE(NULLIF(TRIM(NOMBDIST), ''), 'SIN DATO')"
+          },
+          {
+            "name": "DEPARTAMENTO_MAPA",
+            "expr": "INITCAP(LOWER(TRIM(NOMBDEP)))"
+          },
+          {
+            "name": "PROVINCIA_MAPA",
+            "expr": "INITCAP(LOWER(TRIM(NOMBPROV)))"
+          },
+          {
+            "expr": "EJECUTORA"
+          },
+          {
+            "expr": "EJECUTORA_NOMBRE"
+          },
+          {
+            "expr": "TIP_RECURSO"
+          },
+          {
+            "name": "REGION_NATURAL",
+            "expr": "CASE\n  WHEN UPPER(TRIM(NOMBDEP)) IN ('TUMBES','PIURA','LAMBAYEQUE','LA LIBERTAD','LIMA','CALLAO','ICA','AREQUIPA','MOQUEGUA','TACNA') THEN 'Costa'\n  WHEN UPPER(TRIM(NOMBDEP)) IN ('AMAZONAS','LORETO','SAN MARTIN','UCAYALI','MADRE DE DIOS') THEN 'Selva'\n  WHEN NOMBDEP IS NULL OR TRIM(NOMBDEP) = '' THEN 'Sin dato'\n  ELSE 'Sierra'\nEND"
+          }
+        ]
+      }
+    }
+  ],
+  "pages": [
+    {
+      "name": "d6030e94",
+      "displayName": "1. Resumen Ejecutivo",
+      "layout": [
+        {
+          "widget": {
+            "name": "hdr",
+            "spec": {
+              "widgetType": "text",
+              "version": 1,
+              "encodings": {
+                "text": {
+                  "lines": [
+                    "## Resumen Ejecutivo de Ingresos Públicos\n",
+                    "Indicadores calculados solo con **MONTO_REAL (2012–2025)**. Montos en soles (B = miles de millones). 2025 puede estar en ejecución parcial."
+                  ],
+                  "fields": []
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "k_pia",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(PIA Real)",
+                      "expression": "MEASURE(`PIA Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "PIA total (real)"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(PIA Real)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "k_pim",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(PIM Real)",
+                      "expression": "MEASURE(`PIM Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "PIM total (real)"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(PIM Real)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "k_rec",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Recaudado Real)",
+                      "expression": "MEASURE(`Recaudado Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Recaudación total (real)"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(Recaudado Real)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "k_av",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Avance Recaudacion Real)",
+                      "expression": "MEASURE(`Avance Recaudacion Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "% Avance recaudación vs PIM"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(Avance Recaudacion Real)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "k_dif",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Diferencia PIM vs PIA Real)",
+                      "expression": "MEASURE(`Diferencia PIM vs PIA Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Diferencia PIM – PIA"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(Diferencia PIM vs PIA Real)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "k_brecha",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Brecha Presupuestaria Real)",
+                      "expression": "MEASURE(`Brecha Presupuestaria Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Brecha presupuestaria (PIM – Recaudado)"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(Brecha Presupuestaria Real)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 5,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "k_yoy",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Variacion Interanual Real)",
+                      "expression": "MEASURE(`Variacion Interanual Real`)"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "`TIPO_MONTO` IN ('Real')"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Variación % vs periodo anterior (último año real seleccionado)",
+                  "fields": []
+                }
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(Variacion Interanual Real)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 5,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "real_proy",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "TIPO_MONTO",
+                      "expression": "`TIPO_MONTO`"
+                    },
+                    {
+                      "name": "PERIODO",
+                      "expression": "`PERIODO`"
+                    },
+                    {
+                      "name": "measure(Recaudado)",
+                      "expression": "MEASURE(`Recaudado`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Recaudación real vs proyectada por periodo"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "PERIODO",
+                  "displayName": "PERIODO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(Recaudado)",
+                  "displayName": "Recaudado",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "TIPO_MONTO",
+                  "displayName": "TIPO_MONTO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 14,
+            "width": 12,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "region",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Recaudado Real)",
+                      "expression": "MEASURE(`Recaudado Real`)"
+                    },
+                    {
+                      "name": "REGION_NATURAL",
+                      "expression": "`REGION_NATURAL`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Distribución de recaudación real por región natural"
+              },
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "measure(Recaudado Real)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Recaudado Real"
+                },
+                "color": {
+                  "fieldName": "REGION_NATURAL",
+                  "displayName": "REGION_NATURAL",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 20,
+            "width": 4,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "top10",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "DEPARTAMENTO",
+                      "expression": "`DEPARTAMENTO`"
+                    },
+                    {
+                      "name": "measure(Recaudado Real)",
+                      "expression": "MEASURE(`Recaudado Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Top 10 departamentos por recaudación real",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "DEPARTAMENTO",
+                  "displayName": "DEPARTAMENTO",
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 10
+                    },
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(Recaudado Real)",
+                  "displayName": "Recaudado Real",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "DEPARTAMENTO",
+                  "displayName": "DEPARTAMENTO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 20,
+            "width": 8,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "kpi_tabla",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "REGION_NATURAL",
+                      "expression": "`REGION_NATURAL`"
+                    },
+                    {
+                      "name": "measure(PIA Real)",
+                      "expression": "MEASURE(`PIA Real`)"
+                    },
+                    {
+                      "name": "measure(PIM Real)",
+                      "expression": "MEASURE(`PIM Real`)"
+                    },
+                    {
+                      "name": "measure(Recaudado Real)",
+                      "expression": "MEASURE(`Recaudado Real`)"
+                    },
+                    {
+                      "name": "measure(Avance Recaudacion Real)",
+                      "expression": "MEASURE(`Avance Recaudacion Real`)"
+                    },
+                    {
+                      "name": "measure(Brecha Presupuestaria Real)",
+                      "expression": "MEASURE(`Brecha Presupuestaria Real`)"
+                    },
+                    {
+                      "name": "measure(Dependencia Canon)",
+                      "expression": "MEASURE(`Dependencia Canon`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Indicadores de desempeño por región natural"
+              },
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "REGION_NATURAL"
+                  },
+                  {
+                    "fieldName": "measure(PIA Real)"
+                  },
+                  {
+                    "fieldName": "measure(PIM Real)"
+                  },
+                  {
+                    "fieldName": "measure(Recaudado Real)"
+                  },
+                  {
+                    "fieldName": "measure(Avance Recaudacion Real)"
+                  },
+                  {
+                    "fieldName": "measure(Brecha Presupuestaria Real)"
+                  },
+                  {
+                    "fieldName": "measure(Dependencia Canon)"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 28,
+            "width": 12,
+            "height": 5
+          }
+        },
+        {
+          "widget": {
+            "name": "evo_ppr",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "PERIODO",
+                      "expression": "`PERIODO`"
+                    },
+                    {
+                      "name": "measure(PIA Real)",
+                      "expression": "MEASURE(`PIA Real`)"
+                    },
+                    {
+                      "name": "measure(PIM Real)",
+                      "expression": "MEASURE(`PIM Real`)"
+                    },
+                    {
+                      "name": "measure(Recaudado Real)",
+                      "expression": "MEASURE(`Recaudado Real`)"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "`TIPO_MONTO` IN ('Real')"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "showDescription": true,
+                "title": "Evolución de PIA, PIM y recaudación (real)",
+                "description": "Tendencia del presupuesto inicial, modificado y lo recaudado"
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "PERIODO",
+                  "displayName": "Periodo",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "PEN",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  },
+                  "fields": [
+                    {
+                      "fieldName": "measure(PIA Real)",
+                      "displayName": "PIA"
+                    },
+                    {
+                      "fieldName": "measure(PIM Real)",
+                      "displayName": "PIM"
+                    },
+                    {
+                      "fieldName": "measure(Recaudado Real)",
+                      "displayName": "Recaudado"
+                    }
+                  ]
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 8,
+            "width": 12,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "presupuesto",
+      "displayName": "2. Análisis Presupuestario",
+      "layout": [
+        {
+          "widget": {
+            "name": "hdr",
+            "spec": {
+              "widgetType": "text",
+              "version": 1,
+              "encodings": {
+                "text": {
+                  "lines": [
+                    "## Análisis Presupuestario\n",
+                    "Comparación PIA, PIM y recaudación real. Ejecución = Recaudado / PIM. Brecha = PIM – Recaudado."
+                  ],
+                  "fields": []
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "k_av",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Avance Recaudacion Real)",
+                      "expression": "MEASURE(`Avance Recaudacion Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "% Ejecución presupuestaria"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(Avance Recaudacion Real)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "k_dif",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Diferencia PIM vs PIA Real)",
+                      "expression": "MEASURE(`Diferencia PIM vs PIA Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Modificación presupuestal (PIM – PIA)"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(Diferencia PIM vs PIA Real)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 2,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "k_br",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Brecha Presupuestaria Real)",
+                      "expression": "MEASURE(`Brecha Presupuestaria Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Brecha presupuestaria"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(Brecha Presupuestaria Real)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 2,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "ejec_anio",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "PERIODO",
+                      "expression": "`PERIODO`"
+                    },
+                    {
+                      "name": "measure(Avance Recaudacion Real)",
+                      "expression": "MEASURE(`Avance Recaudacion Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "% Ejecución presupuestaria por periodo"
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "PERIODO",
+                  "displayName": "PERIODO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(Avance Recaudacion Real)",
+                  "displayName": "Avance Recaudacion Real",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "PERIODO",
+                  "displayName": "PERIODO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 11,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "brecha_anio",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "PERIODO",
+                      "expression": "`PERIODO`"
+                    },
+                    {
+                      "name": "measure(Brecha Presupuestaria Real)",
+                      "expression": "MEASURE(`Brecha Presupuestaria Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Brecha presupuestaria por periodo"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "PERIODO",
+                  "displayName": "PERIODO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(Brecha Presupuestaria Real)",
+                  "displayName": "Brecha Presupuestaria Real",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "PERIODO",
+                  "displayName": "PERIODO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 11,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "rank_ejec",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "DEPARTAMENTO",
+                      "expression": "`DEPARTAMENTO`"
+                    },
+                    {
+                      "name": "measure(Avance Recaudacion Real)",
+                      "expression": "MEASURE(`Avance Recaudacion Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Ranking de departamentos por % de ejecución",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "DEPARTAMENTO",
+                  "displayName": "DEPARTAMENTO",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(Avance Recaudacion Real)",
+                  "displayName": "Avance Recaudacion Real",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "DEPARTAMENTO",
+                  "displayName": "DEPARTAMENTO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 17,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "rank_brecha",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "DEPARTAMENTO",
+                      "expression": "`DEPARTAMENTO`"
+                    },
+                    {
+                      "name": "measure(Brecha Presupuestaria Real)",
+                      "expression": "MEASURE(`Brecha Presupuestaria Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": {
+                  "value": "Departamentos con mayor brecha presupuestaria",
+                  "fields": []
+                }
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "DEPARTAMENTO",
+                  "displayName": "DEPARTAMENTO",
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 10
+                    },
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(Brecha Presupuestaria Real)",
+                  "displayName": "Brecha Presupuestaria Real",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "DEPARTAMENTO",
+                  "displayName": "DEPARTAMENTO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 17,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "tabla",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "DEPARTAMENTO",
+                      "expression": "`DEPARTAMENTO`"
+                    },
+                    {
+                      "name": "REGION_NATURAL",
+                      "expression": "`REGION_NATURAL`"
+                    },
+                    {
+                      "name": "measure(PIA Real)",
+                      "expression": "MEASURE(`PIA Real`)"
+                    },
+                    {
+                      "name": "measure(PIM Real)",
+                      "expression": "MEASURE(`PIM Real`)"
+                    },
+                    {
+                      "name": "measure(Diferencia PIM vs PIA Real)",
+                      "expression": "MEASURE(`Diferencia PIM vs PIA Real`)"
+                    },
+                    {
+                      "name": "measure(Recaudado Real)",
+                      "expression": "MEASURE(`Recaudado Real`)"
+                    },
+                    {
+                      "name": "measure(Avance Recaudacion Real)",
+                      "expression": "MEASURE(`Avance Recaudacion Real`)"
+                    },
+                    {
+                      "name": "measure(Brecha Presupuestaria Real)",
+                      "expression": "MEASURE(`Brecha Presupuestaria Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Tabla comparativa presupuestaria por departamento"
+              },
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "DEPARTAMENTO"
+                  },
+                  {
+                    "fieldName": "REGION_NATURAL"
+                  },
+                  {
+                    "fieldName": "measure(PIA Real)"
+                  },
+                  {
+                    "fieldName": "measure(PIM Real)"
+                  },
+                  {
+                    "fieldName": "measure(Diferencia PIM vs PIA Real)"
+                  },
+                  {
+                    "fieldName": "measure(Recaudado Real)"
+                  },
+                  {
+                    "fieldName": "measure(Avance Recaudacion Real)"
+                  },
+                  {
+                    "fieldName": "measure(Brecha Presupuestaria Real)"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 25,
+            "width": 12,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "pia_pim",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "PERIODO",
+                      "expression": "`PERIODO`"
+                    },
+                    {
+                      "name": "measure(PIA Real)",
+                      "expression": "MEASURE(`PIA Real`)"
+                    },
+                    {
+                      "name": "measure(PIM Real)",
+                      "expression": "MEASURE(`PIM Real`)"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "`TIPO_MONTO` IN ('Real')"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "showDescription": true,
+                "title": "PIA vs PIM por periodo",
+                "description": "Presupuesto inicial de apertura frente al modificado"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "PERIODO",
+                  "displayName": "Periodo",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "PEN",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  },
+                  "fields": [
+                    {
+                      "fieldName": "measure(PIA Real)",
+                      "displayName": "PIA"
+                    },
+                    {
+                      "fieldName": "measure(PIM Real)",
+                      "displayName": "PIM"
+                    }
+                  ]
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 6,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "pim_rec",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "PERIODO",
+                      "expression": "`PERIODO`"
+                    },
+                    {
+                      "name": "measure(PIM Real)",
+                      "expression": "MEASURE(`PIM Real`)"
+                    },
+                    {
+                      "name": "measure(Recaudado Real)",
+                      "expression": "MEASURE(`Recaudado Real`)"
+                    }
+                  ],
+                  "filters": [
+                    {
+                      "expression": "`TIPO_MONTO` IN ('Real')"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "showDescription": true,
+                "title": "PIM vs Recaudación por periodo",
+                "description": "Presupuesto modificado frente a lo efectivamente recaudado"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "PERIODO",
+                  "displayName": "Periodo",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "PEN",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  },
+                  "fields": [
+                    {
+                      "fieldName": "measure(PIM Real)",
+                      "displayName": "PIM"
+                    },
+                    {
+                      "fieldName": "measure(Recaudado Real)",
+                      "displayName": "Recaudado"
+                    }
+                  ]
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 5,
+            "width": 6,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "historico",
+      "displayName": "3. Histórico y Proyecciones",
+      "layout": [
+        {
+          "widget": {
+            "name": "hdr",
+            "spec": {
+              "widgetType": "text",
+              "version": 1,
+              "encodings": {
+                "text": {
+                  "lines": [
+                    "## Análisis Histórico y Proyecciones\n",
+                    "**Real**: 2012–2025 (verde) · **Proyectado**: 2026–2035 (naranja). Cada año pertenece a un solo tipo de monto; no se suman entre sí."
+                  ],
+                  "fields": []
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "k_real",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Recaudado Real)",
+                      "expression": "MEASURE(`Recaudado Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Recaudación histórica real (2012–2025)"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(Recaudado Real)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "k_proy",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Recaudado Proyectado)",
+                      "expression": "MEASURE(`Recaudado Proyectado`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Recaudación proyectada (2026–2035)"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(Recaudado Proyectado)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 2,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "k_pimp",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(PIM Proyectado)",
+                      "expression": "MEASURE(`PIM Proyectado`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "PIM proyectado (2026–2035)"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(PIM Proyectado)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 2,
+            "width": 4,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "evo",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "TIPO_MONTO",
+                      "expression": "`TIPO_MONTO`"
+                    },
+                    {
+                      "name": "PERIODO",
+                      "expression": "`PERIODO`"
+                    },
+                    {
+                      "name": "measure(Recaudado)",
+                      "expression": "MEASURE(`Recaudado`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Evolución de la recaudación: real vs proyectada"
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "PERIODO",
+                  "displayName": "PERIODO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(Recaudado)",
+                  "displayName": "Recaudado",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "TIPO_MONTO",
+                  "displayName": "TIPO_MONTO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 12,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "yoy",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "TIPO_MONTO",
+                      "expression": "`TIPO_MONTO`"
+                    },
+                    {
+                      "name": "PERIODO",
+                      "expression": "`PERIODO`"
+                    },
+                    {
+                      "name": "measure(Variacion Interanual)",
+                      "expression": "MEASURE(`Variacion Interanual`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Variación interanual de la recaudación (%)"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "PERIODO",
+                  "displayName": "PERIODO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(Variacion Interanual)",
+                  "displayName": "Variacion Interanual",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "TIPO_MONTO",
+                  "displayName": "TIPO_MONTO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 12,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "pim",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "TIPO_MONTO",
+                      "expression": "`TIPO_MONTO`"
+                    },
+                    {
+                      "name": "PERIODO",
+                      "expression": "`PERIODO`"
+                    },
+                    {
+                      "name": "measure(PIM)",
+                      "expression": "MEASURE(`PIM`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "PIM por periodo: real vs proyectado"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "PERIODO",
+                  "displayName": "PERIODO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(PIM)",
+                  "displayName": "PIM",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "TIPO_MONTO",
+                  "displayName": "TIPO_MONTO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 19,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "tabla",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "PERIODO",
+                      "expression": "`PERIODO`"
+                    },
+                    {
+                      "name": "TIPO_MONTO",
+                      "expression": "`TIPO_MONTO`"
+                    },
+                    {
+                      "name": "measure(PIA)",
+                      "expression": "MEASURE(`PIA`)"
+                    },
+                    {
+                      "name": "measure(PIM)",
+                      "expression": "MEASURE(`PIM`)"
+                    },
+                    {
+                      "name": "measure(Recaudado)",
+                      "expression": "MEASURE(`Recaudado`)"
+                    },
+                    {
+                      "name": "measure(Avance Recaudacion)",
+                      "expression": "MEASURE(`Avance Recaudacion`)"
+                    },
+                    {
+                      "name": "measure(Variacion Interanual)",
+                      "expression": "MEASURE(`Variacion Interanual`)"
+                    },
+                    {
+                      "name": "measure(Crecimiento Acumulado vs 2012)",
+                      "expression": "MEASURE(`Crecimiento Acumulado vs 2012`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Tabla de tendencias por periodo"
+              },
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "PERIODO"
+                  },
+                  {
+                    "fieldName": "TIPO_MONTO"
+                  },
+                  {
+                    "fieldName": "measure(PIA)"
+                  },
+                  {
+                    "fieldName": "measure(PIM)"
+                  },
+                  {
+                    "fieldName": "measure(Recaudado)"
+                  },
+                  {
+                    "fieldName": "measure(Avance Recaudacion)"
+                  },
+                  {
+                    "fieldName": "measure(Variacion Interanual)"
+                  },
+                  {
+                    "fieldName": "measure(Crecimiento Acumulado vs 2012)"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 19,
+            "width": 6,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "crec_acum",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "PERIODO",
+                      "expression": "`PERIODO`"
+                    },
+                    {
+                      "name": "measure(Crecimiento Acumulado vs 2012)",
+                      "expression": "MEASURE(`Crecimiento Acumulado vs 2012`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "showDescription": true,
+                "title": "Tasa de crecimiento acumulada vs 2012 (%)",
+                "description": "Recaudación del periodo / recaudación real 2012 – 1. 2012–2025 real, 2026–2035 proyectado"
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "PERIODO",
+                  "displayName": "Periodo",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(Crecimiento Acumulado vs 2012)",
+                  "format": {
+                    "type": "number-percent",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Crecimiento acumulado",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 12,
+            "width": 6,
+            "height": 7
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "geografico",
+      "displayName": "4. Análisis Geográfico",
+      "layout": [
+        {
+          "widget": {
+            "name": "hdr",
+            "spec": {
+              "widgetType": "text",
+              "version": 1,
+              "encodings": {
+                "text": {
+                  "lines": [
+                    "## Análisis Geográfico\n",
+                    "Recaudación real por departamento, provincia y distrito (UBIGEO) y por región natural. Participación = recaudación del departamento / total nacional."
+                  ],
+                  "fields": []
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "region",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "REGION_NATURAL",
+                      "expression": "`REGION_NATURAL`"
+                    },
+                    {
+                      "name": "measure(Recaudado Real)",
+                      "expression": "MEASURE(`Recaudado Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Recaudación real por región natural"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "REGION_NATURAL",
+                  "displayName": "REGION_NATURAL",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(Recaudado Real)",
+                  "displayName": "Recaudado Real",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "REGION_NATURAL",
+                  "displayName": "REGION_NATURAL",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 10,
+            "width": 4,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "region_evo",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "REGION_NATURAL",
+                      "expression": "`REGION_NATURAL`"
+                    },
+                    {
+                      "name": "PERIODO",
+                      "expression": "`PERIODO`"
+                    },
+                    {
+                      "name": "measure(Recaudado Real)",
+                      "expression": "MEASURE(`Recaudado Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Evolución por región natural (real)"
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "PERIODO",
+                  "displayName": "PERIODO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(Recaudado Real)",
+                  "displayName": "Recaudado Real",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "REGION_NATURAL",
+                  "displayName": "REGION_NATURAL",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 10,
+            "width": 8,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "rank",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "DEPARTAMENTO",
+                      "expression": "`DEPARTAMENTO`"
+                    },
+                    {
+                      "name": "REGION_NATURAL",
+                      "expression": "`REGION_NATURAL`"
+                    },
+                    {
+                      "name": "measure(Recaudado Real)",
+                      "expression": "MEASURE(`Recaudado Real`)"
+                    },
+                    {
+                      "name": "measure(Participacion Departamento)",
+                      "expression": "MEASURE(`Participacion Departamento`)"
+                    },
+                    {
+                      "name": "measure(PIM Real)",
+                      "expression": "MEASURE(`PIM Real`)"
+                    },
+                    {
+                      "name": "measure(Avance Recaudacion Real)",
+                      "expression": "MEASURE(`Avance Recaudacion Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Ranking de departamentos (mayor a menor recaudación)"
+              },
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "DEPARTAMENTO"
+                  },
+                  {
+                    "fieldName": "REGION_NATURAL"
+                  },
+                  {
+                    "fieldName": "measure(Recaudado Real)"
+                  },
+                  {
+                    "fieldName": "measure(Participacion Departamento)"
+                  },
+                  {
+                    "fieldName": "measure(PIM Real)"
+                  },
+                  {
+                    "fieldName": "measure(Avance Recaudacion Real)"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 24,
+            "width": 6,
+            "height": 9
+          }
+        },
+        {
+          "widget": {
+            "name": "ubigeo",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "UBIGEO",
+                      "expression": "`UBIGEO`"
+                    },
+                    {
+                      "name": "DEPARTAMENTO",
+                      "expression": "`DEPARTAMENTO`"
+                    },
+                    {
+                      "name": "PROVINCIA",
+                      "expression": "`PROVINCIA`"
+                    },
+                    {
+                      "name": "DISTRITO",
+                      "expression": "`DISTRITO`"
+                    },
+                    {
+                      "name": "measure(Recaudado Real)",
+                      "expression": "MEASURE(`Recaudado Real`)"
+                    },
+                    {
+                      "name": "measure(PIM Real)",
+                      "expression": "MEASURE(`PIM Real`)"
+                    },
+                    {
+                      "name": "measure(Avance Recaudacion Real)",
+                      "expression": "MEASURE(`Avance Recaudacion Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Recaudación por provincia y distrito (UBIGEO)"
+              },
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "UBIGEO"
+                  },
+                  {
+                    "fieldName": "DEPARTAMENTO"
+                  },
+                  {
+                    "fieldName": "PROVINCIA"
+                  },
+                  {
+                    "fieldName": "DISTRITO"
+                  },
+                  {
+                    "fieldName": "measure(Recaudado Real)"
+                  },
+                  {
+                    "fieldName": "measure(PIM Real)"
+                  },
+                  {
+                    "fieldName": "measure(Avance Recaudacion Real)"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 24,
+            "width": 6,
+            "height": 9
+          }
+        },
+        {
+          "widget": {
+            "name": "participacion",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "DEPARTAMENTO",
+                      "expression": "`DEPARTAMENTO`"
+                    },
+                    {
+                      "name": "measure(Participacion Departamento)",
+                      "expression": "MEASURE(`Participacion Departamento`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "showDescription": true,
+                "title": "Participación % de cada departamento en el total nacional",
+                "description": "Concentración geográfica: recaudación real del departamento / total nacional"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "DEPARTAMENTO",
+                  "displayName": "Departamento",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(Participacion Departamento)",
+                  "format": {
+                    "type": "number-percent",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "Participación",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "label": {
+                  "show": true
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 17,
+            "width": 12,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "mapa_dep",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Recaudado Real)",
+                      "expression": "MEASURE(`Recaudado Real`)"
+                    },
+                    {
+                      "name": "DEPARTAMENTO_MAPA",
+                      "expression": "`DEPARTAMENTO_MAPA`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Mapa de recaudación real por departamento"
+              },
+              "version": 1,
+              "widgetType": "choropleth-map",
+              "encodings": {
+                "color": {
+                  "fieldName": "measure(Recaudado Real)",
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "PEN",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  },
+                  "scale": {
+                    "type": "quantitative",
+                    "colorRamp": {
+                      "mode": "scheme",
+                      "scheme": "greens"
+                    }
+                  }
+                },
+                "region": {
+                  "regionType": "mapbox-v4-admin",
+                  "admin0": {
+                    "type": "value",
+                    "geographicRole": "admin0-name",
+                    "value": "Peru"
+                  },
+                  "admin1": {
+                    "fieldName": "DEPARTAMENTO_MAPA",
+                    "type": "field",
+                    "geographicRole": "admin1-name"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 12,
+            "height": 8
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "recurso",
+      "displayName": "5. Tipo de Recurso",
+      "layout": [
+        {
+          "widget": {
+            "name": "hdr",
+            "spec": {
+              "widgetType": "text",
+              "version": 1,
+              "encodings": {
+                "text": {
+                  "lines": [
+                    "## Análisis por Tipo de Recurso\n",
+                    "Composición de la recaudación real (2012–2025) entre **CANON** y **NORMAL**."
+                  ],
+                  "fields": []
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "k_canon",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Recaudado Real Canon)",
+                      "expression": "MEASURE(`Recaudado Real Canon`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Recaudación real CANON"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(Recaudado Real Canon)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "k_normal",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Recaudado Real Normal)",
+                      "expression": "MEASURE(`Recaudado Real Normal`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Recaudación real NORMAL"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(Recaudado Real Normal)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "k_pc",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Dependencia Canon)",
+                      "expression": "MEASURE(`Dependencia Canon`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "% Participación CANON"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(Dependencia Canon)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "k_pn",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Dependencia Normal)",
+                      "expression": "MEASURE(`Dependencia Normal`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "% Participación NORMAL"
+              },
+              "version": 2,
+              "widgetType": "counter",
+              "encodings": {
+                "value": {
+                  "fieldName": "measure(Dependencia Normal)",
+                  "rowNumber": 0
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 9,
+            "y": 2,
+            "width": 3,
+            "height": 3
+          }
+        },
+        {
+          "widget": {
+            "name": "mix_dep",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "DEPARTAMENTO",
+                      "expression": "`DEPARTAMENTO`"
+                    },
+                    {
+                      "name": "measure(Recaudado Real Canon)",
+                      "expression": "MEASURE(`Recaudado Real Canon`)"
+                    },
+                    {
+                      "name": "measure(Recaudado Real Normal)",
+                      "expression": "MEASURE(`Recaudado Real Normal`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "showDescription": true,
+                "title": "Distribución por departamento y tipo de recurso",
+                "description": "Barras apiladas CANON vs NORMAL"
+              },
+              "version": 3,
+              "mark": {
+                "layout": "stack"
+              },
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "DEPARTAMENTO",
+                  "displayName": "Departamento",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  }
+                },
+                "y": {
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "format": {
+                    "type": "number-currency",
+                    "currencyCode": "PEN",
+                    "abbreviation": "compact",
+                    "decimalPlaces": {
+                      "type": "max",
+                      "places": 2
+                    }
+                  },
+                  "fields": [
+                    {
+                      "fieldName": "measure(Recaudado Real Canon)",
+                      "displayName": "CANON"
+                    },
+                    {
+                      "fieldName": "measure(Recaudado Real Normal)",
+                      "displayName": "NORMAL"
+                    }
+                  ]
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 12,
+            "width": 12,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "pie",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Recaudado Real)",
+                      "expression": "MEASURE(`Recaudado Real`)"
+                    },
+                    {
+                      "name": "TIP_RECURSO",
+                      "expression": "`TIP_RECURSO`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Participación por tipo de recurso"
+              },
+              "version": 3,
+              "widgetType": "pie",
+              "encodings": {
+                "angle": {
+                  "fieldName": "measure(Recaudado Real)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Recaudado Real"
+                },
+                "color": {
+                  "fieldName": "TIP_RECURSO",
+                  "displayName": "TIP_RECURSO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 5,
+            "width": 4,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "dep_canon",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Dependencia Canon)",
+                      "expression": "MEASURE(`Dependencia Canon`)"
+                    },
+                    {
+                      "name": "DEPARTAMENTO",
+                      "expression": "`DEPARTAMENTO`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "showDescription": true,
+                "title": "Departamentos más dependientes del CANON",
+                "description": "% de la recaudación real del departamento que proviene de CANON"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(Dependencia Canon)",
+                  "format": {
+                    "type": "number-percent",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "% CANON",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "DEPARTAMENTO",
+                  "displayName": "Departamento",
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 10
+                    },
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 20,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "evo",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "TIP_RECURSO",
+                      "expression": "`TIP_RECURSO`"
+                    },
+                    {
+                      "name": "PERIODO",
+                      "expression": "`PERIODO`"
+                    },
+                    {
+                      "name": "measure(Recaudado Real)",
+                      "expression": "MEASURE(`Recaudado Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Evolución histórica por tipo de recurso (real)"
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "PERIODO",
+                  "displayName": "PERIODO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(Recaudado Real)",
+                  "displayName": "Recaudado Real",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "TIP_RECURSO",
+                  "displayName": "TIP_RECURSO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 5,
+            "width": 4,
+            "height": 7
+          }
+        },
+        {
+          "widget": {
+            "name": "dep_normal",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "measure(Dependencia Normal)",
+                      "expression": "MEASURE(`Dependencia Normal`)"
+                    },
+                    {
+                      "name": "DEPARTAMENTO",
+                      "expression": "`DEPARTAMENTO`"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "showDescription": true,
+                "title": "Departamentos más dependientes de recursos NORMAL",
+                "description": "% de la recaudación real del departamento que proviene de recursos NORMAL"
+              },
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "measure(Dependencia Normal)",
+                  "format": {
+                    "type": "number-percent",
+                    "decimalPlaces": {
+                      "type": "exact",
+                      "places": 2
+                    }
+                  },
+                  "displayName": "% NORMAL",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "y": {
+                  "fieldName": "DEPARTAMENTO",
+                  "displayName": "Departamento",
+                  "scale": {
+                    "type": "categorical",
+                    "categorySize": {
+                      "type": "number-of-categories",
+                      "number": 10
+                    },
+                    "sort": {
+                      "by": "x-reversed"
+                    }
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 6,
+            "y": 20,
+            "width": 6,
+            "height": 8
+          }
+        },
+        {
+          "widget": {
+            "name": "crec",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "TIP_RECURSO",
+                      "expression": "`TIP_RECURSO`"
+                    },
+                    {
+                      "name": "PERIODO",
+                      "expression": "`PERIODO`"
+                    },
+                    {
+                      "name": "measure(Variacion Interanual Real)",
+                      "expression": "MEASURE(`Variacion Interanual Real`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Comparación de crecimiento interanual por tipo de recurso"
+              },
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "PERIODO",
+                  "displayName": "PERIODO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                },
+                "y": {
+                  "fieldName": "measure(Variacion Interanual Real)",
+                  "displayName": "Variacion Interanual Real",
+                  "scale": {
+                    "type": "quantitative"
+                  }
+                },
+                "color": {
+                  "fieldName": "TIP_RECURSO",
+                  "displayName": "TIP_RECURSO",
+                  "scale": {
+                    "type": "categorical"
+                  }
+                }
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 5,
+            "width": 4,
+            "height": 7
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "detalle",
+      "displayName": "6. Detalle y Exploración",
+      "layout": [
+        {
+          "widget": {
+            "name": "hdr",
+            "spec": {
+              "widgetType": "text",
+              "version": 1,
+              "encodings": {
+                "text": {
+                  "lines": [
+                    "## Detalle y Exploración\n",
+                    "Consulta de registros a nivel ejecutora / UBIGEO / tipo de recurso. Use los filtros para acotar la consulta."
+                  ],
+                  "fields": []
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 12,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "f_tipo",
+            "queries": [
+              {
+                "name": "dashboards/01f1e13ef4a810a2b9d13098a97c02ea/datasets/01f1e13f4603148cb75a889df228102c_TIPO_MONTO",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "TIPO_MONTO",
+                      "expression": "`TIPO_MONTO`"
+                    },
+                    {
+                      "name": "TIPO_MONTO_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Tipo de monto"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "TIPO_MONTO",
+                    "queryName": "dashboards/01f1e13ef4a810a2b9d13098a97c02ea/datasets/01f1e13f4603148cb75a889df228102c_TIPO_MONTO"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 4,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "f_prov",
+            "queries": [
+              {
+                "name": "dashboards/01f1e13ef4a810a2b9d13098a97c02ea/datasets/01f1e13f4603148cb75a889df228102c_PROVINCIA",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "PROVINCIA",
+                      "expression": "`PROVINCIA`"
+                    },
+                    {
+                      "name": "PROVINCIA_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Provincia"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "PROVINCIA",
+                    "queryName": "dashboards/01f1e13ef4a810a2b9d13098a97c02ea/datasets/01f1e13f4603148cb75a889df228102c_PROVINCIA"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 4,
+            "y": 2,
+            "width": 4,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "f_dist",
+            "queries": [
+              {
+                "name": "dashboards/01f1e13ef4a810a2b9d13098a97c02ea/datasets/01f1e13f4603148cb75a889df228102c_DISTRITO",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "DISTRITO",
+                      "expression": "`DISTRITO`"
+                    },
+                    {
+                      "name": "DISTRITO_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Distrito"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "DISTRITO",
+                    "queryName": "dashboards/01f1e13ef4a810a2b9d13098a97c02ea/datasets/01f1e13f4603148cb75a889df228102c_DISTRITO"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 8,
+            "y": 2,
+            "width": 4,
+            "height": 1
+          }
+        },
+        {
+          "widget": {
+            "name": "tabla",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "PERIODO",
+                      "expression": "`PERIODO`"
+                    },
+                    {
+                      "name": "TIPO_MONTO",
+                      "expression": "`TIPO_MONTO`"
+                    },
+                    {
+                      "name": "UBIGEO",
+                      "expression": "`UBIGEO`"
+                    },
+                    {
+                      "name": "DEPARTAMENTO",
+                      "expression": "`DEPARTAMENTO`"
+                    },
+                    {
+                      "name": "PROVINCIA",
+                      "expression": "`PROVINCIA`"
+                    },
+                    {
+                      "name": "DISTRITO",
+                      "expression": "`DISTRITO`"
+                    },
+                    {
+                      "name": "REGION_NATURAL",
+                      "expression": "`REGION_NATURAL`"
+                    },
+                    {
+                      "name": "EJECUTORA",
+                      "expression": "`EJECUTORA`"
+                    },
+                    {
+                      "name": "EJECUTORA_NOMBRE",
+                      "expression": "`EJECUTORA_NOMBRE`"
+                    },
+                    {
+                      "name": "TIP_RECURSO",
+                      "expression": "`TIP_RECURSO`"
+                    },
+                    {
+                      "name": "measure(PIA)",
+                      "expression": "MEASURE(`PIA`)"
+                    },
+                    {
+                      "name": "measure(PIM)",
+                      "expression": "MEASURE(`PIM`)"
+                    },
+                    {
+                      "name": "measure(Recaudado)",
+                      "expression": "MEASURE(`Recaudado`)"
+                    },
+                    {
+                      "name": "measure(Avance Recaudacion)",
+                      "expression": "MEASURE(`Avance Recaudacion`)"
+                    },
+                    {
+                      "name": "measure(Brecha Presupuestaria)",
+                      "expression": "MEASURE(`Brecha Presupuestaria`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "frame": {
+                "showTitle": true,
+                "title": "Detalle de ingresos"
+              },
+              "version": 2,
+              "widgetType": "table",
+              "encodings": {
+                "columns": [
+                  {
+                    "fieldName": "PERIODO"
+                  },
+                  {
+                    "fieldName": "TIPO_MONTO"
+                  },
+                  {
+                    "fieldName": "UBIGEO"
+                  },
+                  {
+                    "fieldName": "DEPARTAMENTO"
+                  },
+                  {
+                    "fieldName": "PROVINCIA"
+                  },
+                  {
+                    "fieldName": "DISTRITO"
+                  },
+                  {
+                    "fieldName": "REGION_NATURAL"
+                  },
+                  {
+                    "fieldName": "EJECUTORA"
+                  },
+                  {
+                    "fieldName": "EJECUTORA_NOMBRE"
+                  },
+                  {
+                    "fieldName": "TIP_RECURSO"
+                  },
+                  {
+                    "fieldName": "measure(PIA)"
+                  },
+                  {
+                    "fieldName": "measure(PIM)"
+                  },
+                  {
+                    "fieldName": "measure(Recaudado)"
+                  },
+                  {
+                    "fieldName": "measure(Avance Recaudacion)"
+                  },
+                  {
+                    "fieldName": "measure(Brecha Presupuestaria)"
+                  }
+                ]
+              },
+              "data": {
+                "queryName": "main_query"
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 3,
+            "width": 12,
+            "height": 14
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS",
+      "layoutVersion": "GRID_V1"
+    },
+    {
+      "name": "global_filters",
+      "displayName": "Global Filters",
+      "layout": [
+        {
+          "widget": {
+            "name": "g_periodo",
+            "queries": [
+              {
+                "name": "dashboards/01f1e13ef4a810a2b9d13098a97c02ea/datasets/01f1e13f4603148cb75a889df228102c_PERIODO",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "PERIODO",
+                      "expression": "`PERIODO`"
+                    },
+                    {
+                      "name": "PERIODO_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Periodo"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "PERIODO",
+                    "queryName": "dashboards/01f1e13ef4a810a2b9d13098a97c02ea/datasets/01f1e13f4603148cb75a889df228102c_PERIODO"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 1,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "g_dep",
+            "queries": [
+              {
+                "name": "dashboards/01f1e13ef4a810a2b9d13098a97c02ea/datasets/01f1e13f4603148cb75a889df228102c_DEPARTAMENTO",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "DEPARTAMENTO",
+                      "expression": "`DEPARTAMENTO`"
+                    },
+                    {
+                      "name": "DEPARTAMENTO_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Departamento"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "DEPARTAMENTO",
+                    "queryName": "dashboards/01f1e13ef4a810a2b9d13098a97c02ea/datasets/01f1e13f4603148cb75a889df228102c_DEPARTAMENTO"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 2,
+            "width": 1,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "g_region",
+            "queries": [
+              {
+                "name": "dashboards/01f1e13ef4a810a2b9d13098a97c02ea/datasets/01f1e13f4603148cb75a889df228102c_REGION_NATURAL",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "REGION_NATURAL",
+                      "expression": "`REGION_NATURAL`"
+                    },
+                    {
+                      "name": "REGION_NATURAL_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Región natural"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "REGION_NATURAL",
+                    "queryName": "dashboards/01f1e13ef4a810a2b9d13098a97c02ea/datasets/01f1e13f4603148cb75a889df228102c_REGION_NATURAL"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 4,
+            "width": 1,
+            "height": 2
+          }
+        },
+        {
+          "widget": {
+            "name": "g_recurso",
+            "queries": [
+              {
+                "name": "dashboards/01f1e13ef4a810a2b9d13098a97c02ea/datasets/01f1e13f4603148cb75a889df228102c_TIP_RECURSO",
+                "query": {
+                  "datasetName": "mv_ingresos",
+                  "fields": [
+                    {
+                      "name": "TIP_RECURSO",
+                      "expression": "`TIP_RECURSO`"
+                    },
+                    {
+                      "name": "TIP_RECURSO_associativity",
+                      "expression": "COUNT_IF(`associative_filter_predicate_group`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 2,
+              "frame": {
+                "showTitle": true,
+                "title": "Tipo de recurso"
+              },
+              "widgetType": "filter-multi-select",
+              "encodings": {
+                "fields": [
+                  {
+                    "fieldName": "TIP_RECURSO",
+                    "queryName": "dashboards/01f1e13ef4a810a2b9d13098a97c02ea/datasets/01f1e13f4603148cb75a889df228102c_TIP_RECURSO"
+                  }
+                ]
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 1,
+            "height": 2
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_GLOBAL_FILTERS",
+      "layoutVersion": "GRID_V1"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "canvasBackgroundColor": {
+        "light": "#0E1621",
+        "dark": "#0E1621"
+      },
+      "widgetBackgroundColor": {
+        "light": "#16212E",
+        "dark": "#16212E"
+      },
+      "widgetBorderColor": {
+        "light": "#243447",
+        "dark": "#243447"
+      },
+      "selectionColor": {
+        "light": "#F2C94C",
+        "dark": "#F2C94C"
+      },
+      "visualizationColors": [
+        "#2F80ED",
+        "#F2C94C",
+        "#27AE60",
+        "#EB5757",
+        "#9B51E0",
+        "#56CCF2",
+        "#F2994A"
+      ],
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED",
+      "widgetCornerRadius": 8,
+      "fontSettings": {
+        "base": {
+          "fontFamily": "Inter",
+          "fontColor": {
+            "light": "#E6EDF3",
+            "dark": "#E6EDF3"
+          }
+        },
+        "widgetTitle": {
+          "fontColor": {
+            "light": "#FFFFFF",
+            "dark": "#FFFFFF"
+          },
+          "fontWeight": 600
+        },
+        "widgetDescription": {
+          "fontColor": {
+            "light": "#9FB0C3",
+            "dark": "#9FB0C3"
+          }
+        }
+      },
+      "gridLineColor": {
+        "light": "#22303F",
+        "dark": "#22303F"
+      },
+      "visualizationColorMappings": [
+        {
+          "value": "Real",
+          "color": "#27AE60"
+        },
+        {
+          "value": "Proyectado",
+          "color": "#F2994A"
+        },
+        {
+          "value": "Costa",
+          "color": "#56CCF2"
+        },
+        {
+          "value": "Sierra",
+          "color": "#C9A26B"
+        },
+        {
+          "value": "Selva",
+          "color": "#27AE60"
+        },
+        {
+          "value": "CANON",
+          "color": "#F2C94C"
+        },
+        {
+          "value": "NORMAL",
+          "color": "#2F80ED"
+        },
+        {
+          "value": "PIA",
+          "color": "#9B51E0"
+        },
+        {
+          "value": "PIM",
+          "color": "#2F80ED"
+        },
+        {
+          "value": "Recaudado",
+          "color": "#27AE60"
+        }
+      ]
+    },
+    "applyModeEnabled": false
+  }
+}

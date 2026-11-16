@@ -1,0 +1,62 @@
+[
+    {
+        "PERIODO": "2024",
+        "CRECIMIENTO": 0.067,
+        "CRECIMIENTO_REAL": 0.043
+    },
+    {
+        "PERIODO": "2025",
+        "CRECIMIENTO": 0.068,
+        "CRECIMIENTO_REAL": 0.044
+    },
+    {
+        "PERIODO": "2026",
+        "CRECIMIENTO": 0.069,
+        "CRECIMIENTO_REAL": 0.046
+    },
+    {
+        "PERIODO": "2027",
+        "CRECIMIENTO": 0.065,
+        "CRECIMIENTO_REAL": 0.042
+    },
+    {
+        "PERIODO": "2028",
+        "CRECIMIENTO": 0.068,
+        "CRECIMIENTO_REAL": 0.045
+    },
+    {
+        "PERIODO": "2029",
+        "CRECIMIENTO": 0.068,
+        "CRECIMIENTO_REAL": 0.045
+    },
+    {
+        "PERIODO": "2030",
+        "CRECIMIENTO": 0.068,
+        "CRECIMIENTO_REAL": 0.045
+    },
+    {
+        "PERIODO": "2031",
+        "CRECIMIENTO": 0.052,
+        "CRECIMIENTO_REAL": 0.031
+    },
+    {
+        "PERIODO": "2032",
+        "CRECIMIENTO": 0.052,
+        "CRECIMIENTO_REAL": 0.031
+    },
+    {
+        "PERIODO": "2033",
+        "CRECIMIENTO": 0.052,
+        "CRECIMIENTO_REAL": 0.031
+    },
+    {
+        "PERIODO": "2034",
+        "CRECIMIENTO": 0.052,
+        "CRECIMIENTO_REAL": 0.031
+    },
+    {
+        "PERIODO": "2035",
+        "CRECIMIENTO": 0.052,
+        "CRECIMIENTO_REAL": 0.031
+    }
+]
